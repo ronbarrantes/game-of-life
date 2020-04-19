@@ -1,14 +1,13 @@
 import 'reset-css'
-import './styles/main.css'
+import './styles/main.scss'
+import * as utils from './utils'
 
-const hello = document.createElement('h1')
-hello.innerText = 'Hello from ts'
+import title from './title'
+import board from './board'
 
-// const canvasObj = document.createElement('canvas')
 const container = document.createElement('div')
-
-container.appendChild(hello)
-// container.appendChild(canvasObj)
-
 container.className = 'root'
+
+utils.appendMultiple(container)(title, board)
+
 document.body.appendChild(container)
