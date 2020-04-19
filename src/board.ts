@@ -1,6 +1,8 @@
+import { nextIteration } from './utils'
+
 const board = document.createElement('canvas')
 
-const state = [
+let state = [
   [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
   [0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
@@ -13,8 +15,31 @@ const state = [
   [0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
 ]
 
+const nextState = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
+
+
+
+// const nextIteration = (
+//   state: StateType, nextState: StateType): StateType => {
+
+//     // run over the function
+
+//     return nextState
+// }
+
 board.className = 'board'
-const boardSize = '400'
+const boardSize = '300'
 const cellNumber = state.length
 const cellSize = +boardSize / cellNumber
 
@@ -38,14 +63,13 @@ const cell = (x: number, y: number, size: number, isAlive?: number|boolean): voi
 }
 
 const draw = (): void => {
-  for(let cols = 0; cols < cellNumber ; cols++) {
-    for(let rows = 0; rows< cellNumber; rows++){
-      cell(rows*cellSize, cols*cellSize, cellSize,
-        state[cols][rows],
-        // Math.floor(Math.random() * 2),
-      )
+  for(let col = 0; col < cellNumber ; col++) {
+    for(let row = 0; row< cellNumber; row++){
+      cell(row*cellSize, col*cellSize, cellSize, state[col][row])
+      nextState[col][row] = nextIteration(row, col, state)
     }
   }
+  state = nextState
 }
 
 const runGame = setInterval(draw, 500)
