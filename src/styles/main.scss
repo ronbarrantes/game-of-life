@@ -2,8 +2,15 @@
   box-sizing: border-box;
 }
 
+body {
+  width: 100%;
+}
+
 h1 {
+  display: block;
   font-size: 2em;
+  width: 300px;
+  margin: 0 auto;
 }
 
 .board {
