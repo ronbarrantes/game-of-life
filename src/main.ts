@@ -6,11 +6,8 @@ import title from './title'
 import board from './board'
 
 const container = document.createElement('div')
+container.className = 'root'
 
 utils.appendMultiple(container)(title, board)
 
-// container.appendChild(title)
-// container.appendChild(board)
-
-container.className = 'root'
 document.body.appendChild(container)
