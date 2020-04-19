@@ -1,42 +1,24 @@
-import { nextIteration } from './utils'
+import { nextIteration, BoardState } from './utils'
 
 const board = document.createElement('canvas')
 
 let state = [
-  [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-  [0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-  [0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
-
-const nextState = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
-
-
-
-// const nextIteration = (
-//   state: StateType, nextState: StateType): StateType => {
-
-//     // run over the function
-
-//     return nextState
-// }
 
 board.className = 'board'
 const boardSize = '300'
@@ -57,19 +39,22 @@ window.onresize = resizeBoard
 
 const ctx = board.getContext('2d')
 
-const cell = (x: number, y: number, size: number, isAlive?: number|boolean): void => {
+const cell = (x: number, y: number, size: number, isAlive?: number): void => {
   ctx.fillStyle = isAlive ? 'black' : 'white'
   ctx.fillRect(x, y, size, size)
 }
 
 const draw = (): void => {
+  const nextState = []
   for(let col = 0; col < cellNumber ; col++) {
+    nextState.push(new Array(state.length).fill(0))
     for(let row = 0; row< cellNumber; row++){
       cell(row*cellSize, col*cellSize, cellSize, state[col][row])
-      nextState[col][row] = nextIteration(row, col, state)
+      nextState[col][row] = nextIteration(row, col, state) ? 1 :0
     }
   }
   state = nextState
+
 }
 
 const runGame = setInterval(draw, 500)
@@ -80,5 +65,4 @@ const init = (): void => {
 }
 
 init()
-
 export default board
