@@ -1,20 +1,27 @@
+import { nextIteration, BoardState } from './utils'
+
 const board = document.createElement('canvas')
 
-const state = [
-  [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-  [0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-  [0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+let state = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
 board.className = 'board'
-const boardSize = '400'
+const boardSize = '300'
 const cellNumber = state.length
 const cellSize = +boardSize / cellNumber
 
@@ -32,20 +39,22 @@ window.onresize = resizeBoard
 
 const ctx = board.getContext('2d')
 
-const cell = (x: number, y: number, size: number, isAlive?: number|boolean): void => {
+const cell = (x: number, y: number, size: number, isAlive?: number): void => {
   ctx.fillStyle = isAlive ? 'black' : 'white'
   ctx.fillRect(x, y, size, size)
 }
 
 const draw = (): void => {
-  for(let cols = 0; cols < cellNumber ; cols++) {
-    for(let rows = 0; rows< cellNumber; rows++){
-      cell(rows*cellSize, cols*cellSize, cellSize,
-        state[cols][rows],
-        // Math.floor(Math.random() * 2),
-      )
+  const nextState = []
+  for(let col = 0; col < cellNumber ; col++) {
+    nextState.push(new Array(state.length).fill(0))
+    for(let row = 0; row< cellNumber; row++){
+      cell(row*cellSize, col*cellSize, cellSize, state[col][row])
+      nextState[col][row] = nextIteration(row, col, state) ? 1 :0
     }
   }
+  state = nextState
+
 }
 
 const runGame = setInterval(draw, 500)
@@ -56,5 +65,4 @@ const init = (): void => {
 }
 
 init()
-
 export default board
