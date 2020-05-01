@@ -6,6 +6,10 @@ interface RandomNumber {
   (num?: number): number;
 }
 
+interface AppendMultiple {
+  (parent: HTMLElement): (...children: HTMLElement[]) => void;
+}
+
 export const randomState: RandomState = (size) => {
   const arr = []
   for(let i = 0; i< size; i++){
@@ -22,7 +26,6 @@ const randomNumber: RandomNumber = (num=255) => Math.floor(Math.random() * num)
 export const randomColor = (): string =>
   `rgb(${randomNumber()}, ${randomNumber()}, ${randomNumber()})`
 
-export const appendMultiple = (parent: HTMLElement) =>
-  (...children: Array<HTMLElement>): void => {
-    children.forEach(child => parent.appendChild(child))
-  }
+// FIXME: IS THIS RIGHT
+export const appendMultiple: AppendMultiple = (parent) =>
+  (...children) => children.forEach(child => parent.appendChild(child))
