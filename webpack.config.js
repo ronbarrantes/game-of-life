@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const { EnvironmentPlugin } = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -17,12 +17,12 @@ const plugins = [
     meta: {
       viewport: `width=device-width, initial-scale=1, shrink-to-fit=no`,
     },
-    // favicon: './public/assets/favicon.png',
+    favicon: './public/assets/favicon.png',
   }),
 
   new EnvironmentPlugin({
     NODE_ENV: process.env.NODE_ENV,
-    ASSETS_PATH: process.env.ASSETS_PATH,
+    // ASSETS_PATH: process.env.ASSETS_PATH,
     API_URL: process.env.API_URL,
   }),
 
@@ -47,14 +47,14 @@ const optimization = {
   },
 }
 
-if (production) {
-  optimization.minimizer = [new UglifyJsPlugin()]
-}
+// if (production) {
+//   optimization.minimizer = [new UglifyJsPlugin()]
+// }
 
 module.exports = {
   plugins,
   optimization,
-  devtool: production ? undefined : 'inline-source-map',
+  devtool: production ? undefined : 'source-map',
   mode: process.env.NODE_ENV,
   entry: `${__dirname}/src/main.ts`,
 
