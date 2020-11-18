@@ -13,7 +13,7 @@ const plugins = [
   new CleanWebpackPlugin(),
 
   new HtmlWebpackPlugin({
-    title: 'The Game of Life',
+    title: 'The Game of Life :)',
     meta: {
       viewport: `width=device-width, initial-scale=1, shrink-to-fit=no`,
     },
